@@ -1,0 +1,22 @@
+{
+    "name": "Lua.Unity",
+    "rootNamespace": "",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Lua.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.addressables",
+            "expression": "",
+            "define": "LUA_UNITY_ADDRESSABLES"
+        }
+    ],
+    "noEngineReferences": false
+}

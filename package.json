@@ -1,0 +1,18 @@
+{
+  "name": "de.codesmile.luacsharp",
+  "displayName": "LuaCSharp",
+  "description": "Install LuaCSharp without NuGet via Unity Package Manager. Some useful extensions included.",
+  "version": "0.4.2",
+  "unity": "2022.3",
+  "unityRelease": "50f1",
+  "author": {
+    "name": "Steffen Itterheim aka 'CodeSmile' (Unity MVP, Self-Employed)",
+    "email": "steffen@steffenitterheim.de",
+    "url": "https://github.com/CodeSmile-0000011110110111/de.codesmile.luacsharp"
+  },
+  "changelogUrl": "https://github.com/CodeSmile-0000011110110111/de.codesmile.luacsharp/tree/main/CHANGELOG.md",
+  "documentationUrl": "https://github.com/CodeSmile-0000011110110111/de.codesmile.luacsharp/tree/main/README.md",
+  "licensesUrl": "https://github.com/CodeSmile-0000011110110111/de.codesmile.luacsharp/tree/main/LICENSE",
+  "dependencies": {},
+  "relatedPackages": {}
+}
