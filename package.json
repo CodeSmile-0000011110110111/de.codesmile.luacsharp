@@ -2,7 +2,7 @@
   "name": "de.codesmile.luacsharp",
   "displayName": "LuaCSharp",
   "description": "Install LuaCSharp without NuGet via Unity Package Manager. Some useful extensions included.",
-  "version": "0.4.2",
+  "version": "0.5.0-dev.1",
   "unity": "2022.3",
   "unityRelease": "50f1",
   "author": {
