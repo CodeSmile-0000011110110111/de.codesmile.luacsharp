@@ -1,10 +1,10 @@
 {
   "name": "de.codesmile.luacsharp",
-  "displayName": "LuaCSharp",
-  "description": "Install LuaCSharp without NuGet via Unity Package Manager. Some useful extensions included.",
+  "displayName": "CodeSmile LuaCSharp",
+  "description": "Install LuaCSharp without NuGet via Unity Package Manager. Some extensions included.",
   "version": "0.5.0-dev.1",
   "unity": "2022.3",
-  "unityRelease": "50f1",
+  "unityRelease": "45f1",
   "author": {
     "name": "Steffen Itterheim aka 'CodeSmile' (Unity MVP, Self-Employed)",
     "email": "steffen@steffenitterheim.de",
