@@ -1,0 +1,27 @@
+﻿// Copyright (C) 2021-2025 Steffen Itterheim
+// Refer to included LICENSE file for terms and conditions.
+
+using Lua;
+using System;
+using System.Text;
+using UnityEditor;
+using UnityEngine;
+
+namespace CodeSmile.Luny
+{
+	public static class LuaFunctionExecutionContextExt
+	{
+		public static String ArgumentsToString(this LuaFunctionExecutionContext context)
+		{
+			var sb = new StringBuilder();
+			for (var i = 0; i < context.ArgumentCount; i++)
+			{
+				if (i > 0)
+					sb.Append(", ");
+
+				sb.Append(context.GetArgument(i).ToString());
+			}
+			return sb.ToString();
+		}
+	}
+}

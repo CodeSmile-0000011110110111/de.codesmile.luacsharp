@@ -6,17 +6,13 @@ using Lua.Runtime;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEditor;
+using UnityEngine;
 
 namespace CodeSmile.Luny
 {
 	public static class LuaThreadAccessExt
 	{
 
-		public static ValueTask<LuaValue[]> DoStringAsync(this LuaThreadAccess access, string source, string? chunkName, LuaTable environment, CancellationToken cancellationToken = default)
-		{
-			access.ThrowIfInvalid();
-			var closure = access.State.Load(source, chunkName ?? source, environment);
-			return access.DoClosureAsync(closure, cancellationToken);
-		}
 	}
 }

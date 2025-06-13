@@ -13,7 +13,7 @@ namespace CodeSmile.Luny
 {
 	public static class LuaStateExt
 	{
-		public static ValueTask<LuaValue[]> DoStringAsync(this LuaState state, String source, String? chunkName,
+		public static ValueTask<LuaValue[]> DoStringAsync(this LuaState state, String source, String chunkName,
 			LuaTable arguments, CancellationToken cancellationToken = default)
 		{
 			var access = state.RootAccess;
