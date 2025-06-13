@@ -14,8 +14,7 @@ namespace CodeSmile.Luny
 	public static class LuaStateExt
 	{
 		public static ValueTask<LuaValue[]> DoStringAsync(this LuaState state, String source, String? chunkName,
-			LuaTable arguments,
-			CancellationToken cancellationToken = default)
+			LuaTable arguments, CancellationToken cancellationToken = default)
 		{
 			var access = state.RootAccess;
 			access.ThrowIfInvalid();
