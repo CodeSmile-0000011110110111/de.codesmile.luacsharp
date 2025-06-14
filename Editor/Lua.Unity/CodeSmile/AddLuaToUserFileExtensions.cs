@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor.Lua.Unity
+namespace Lua.Unity.Editor
 {
 	internal sealed class AddLuaToUserFileExtensions : ScriptableSingleton<AddLuaToUserFileExtensions>
 	{
