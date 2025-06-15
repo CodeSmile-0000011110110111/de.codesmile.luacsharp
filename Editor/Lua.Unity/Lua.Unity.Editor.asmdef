@@ -11,7 +11,8 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "Lua.dll"
+        "Lua.dll",
+        "Microsoft.Bcl.TimeProvider.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
