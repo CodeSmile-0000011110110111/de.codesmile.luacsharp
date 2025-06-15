@@ -10,9 +10,9 @@ namespace Lua.Unity
 {
 	public static class LuaFunctionExecutionContextExt
 	{
-		public static String ArgumentsToString(this LuaFunctionExecutionContext context)
+		public static String ArgumentsToString(this LuaFunctionExecutionContext context, string prefix = "", string postfix = "")
 		{
-			var sb = new StringBuilder();
+			var sb = new StringBuilder(prefix);
 			for (var i = 0; i < context.ArgumentCount; i++)
 			{
 				if (i > 0)
@@ -20,6 +20,7 @@ namespace Lua.Unity
 
 				sb.Append(context.GetArgument(i).ToString());
 			}
+			sb.Append(postfix);
 			return sb.ToString();
 		}
 	}
