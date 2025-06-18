@@ -1,3 +1,5 @@
+using UnityEditor;
+using UnityEngine;
 #if LUA_UNITY_ADDRESSABLES
 using System;
 using System.Collections.Generic;

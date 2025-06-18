@@ -10,7 +10,8 @@ namespace Lua.Unity
 {
 	public static class LuaFunctionExecutionContextExt
 	{
-		public static String ArgumentsToString(this LuaFunctionExecutionContext context, string prefix = "", string postfix = "")
+		public static String ArgumentsToString(this LuaFunctionExecutionContext context, String prefix = "",
+			String postfix = "")
 		{
 			var sb = new StringBuilder(prefix);
 			for (var i = 0; i < context.ArgumentCount; i++)

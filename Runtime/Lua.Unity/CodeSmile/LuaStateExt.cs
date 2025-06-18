@@ -1,7 +1,6 @@
 ﻿// Copyright (C) 2021-2025 Steffen Itterheim
 // Refer to included LICENSE file for terms and conditions.
 
-using Lua.Runtime;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,22 +12,14 @@ namespace Lua.Unity
 	public static class LuaStateExt
 	{
 		public static ValueTask<LuaValue[]> DoStringAsync(this LuaState state, String source, String chunkName,
-			LuaTable arguments, CancellationToken cancellationToken = default)
-		{
-			var access = state.RootAccess;
-			access.ThrowIfInvalid();
-			var closure = access.State.Load(source, chunkName ?? source);
-			access.Thread.Stack.Push(arguments);
-			return access.DoClosureAsync(closure, 1, cancellationToken);
-		}
+			LuaTable arguments, CancellationToken cancellationToken = default) =>
+			state.RootAccess.DoStringAsync(source, chunkName, arguments, cancellationToken);
 
-		public static async ValueTask<LuaValue[]> DoClosureAsync(this LuaThreadAccess access, LuaClosure closure,
-			Int32 argumentCount, CancellationToken cancellationToken = default)
-		{
-			access.ThrowIfInvalid();
-			var count = await access.RunAsync(closure, argumentCount, cancellationToken);
-			using var results = access.ReadReturnValues(count);
-			return results.AsSpan().ToArray();
-		}
+		public static ValueTask<LuaValue[]> DoBytesAsync(this LuaState state, ReadOnlySpan<Byte> source, String chunkName,
+			LuaTable arguments, CancellationToken cancellationToken = default) =>
+			state.RootAccess.DoBytesAsync(source, chunkName, arguments, cancellationToken);
+
+		public static ValueTask<LuaValue[]> DoFileAsync(this LuaState state, String path, LuaTable arguments,
+			CancellationToken cancellationToken = default) => state.RootAccess.DoFileAsync(path, arguments, cancellationToken);
 	}
 }

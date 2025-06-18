@@ -20,7 +20,7 @@ namespace Lua.Unity
 				table[luaIndex] = values[i];
 		}
 
-		public static void SetValues(this LuaTable table, IList<object> values)
+		public static void SetValues(this LuaTable table, IList<Object> values)
 		{
 			var count = values.Count;
 			var luaIndex = 1;
