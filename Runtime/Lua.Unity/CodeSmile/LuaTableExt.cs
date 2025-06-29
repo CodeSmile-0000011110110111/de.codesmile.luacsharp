@@ -235,5 +235,70 @@ namespace Lua.Unity
 
 			return sb.ToString();
 		}
+
+		public static String ToLuaString(this LuaTable table, Boolean formatted = false) =>
+			ToLuaString(table, formatted, new StringBuilder(), 0);
+
+		private static String ToLuaString(this LuaTable table, Boolean formatted, StringBuilder sb, Int32 nestingLevel)
+		{
+			var rootTabs = formatted ? new String('\t', nestingLevel) : String.Empty;
+			var valueTabs = formatted ? new String('\t', nestingLevel + 1) : String.Empty;
+			var newline = formatted ? "\n" : String.Empty;
+
+			sb.Append(rootTabs);
+			sb.Append("{");
+			sb.Append(newline);
+
+			var arrayLength = table.ArrayLength;
+			for (var i = 0; i < arrayLength; i++)
+			{
+				var value = table[i];
+				if (value.Type == LuaValueType.Function || value.Type == LuaValueType.UserData ||
+				    value.Type == LuaValueType.LightUserData || value.Type == LuaValueType.Thread)
+					continue;
+
+				sb.Append(valueTabs);
+				sb.Append("[");
+				sb.Append(i + 1);
+				sb.Append("]=");
+
+				if (value.Type == LuaValueType.String)
+				{
+					sb.Append("[[");
+					sb.Append(value.ToString());
+					sb.Append("]]");
+				}
+				else if (value.Type == LuaValueType.Number || value.Type == LuaValueType.Boolean ||
+				         value.Type == LuaValueType.Nil)
+					sb.Append(value.ToString());
+				else if (value.Type == LuaValueType.Table)
+					sb.Append(ToLuaString(table, formatted, new StringBuilder(newline), nestingLevel + 1));
+
+				sb.Append(",");
+				sb.Append(newline);
+			}
+
+			// TODO ...
+			var hashCount = table.HashMapCount;
+			if (hashCount > 0)
+			{
+				var nextKey = LuaValue.Nil;
+				for (var i = 0; i < hashCount; i++)
+				{
+					table.TryGetNext(nextKey, out var kvp);
+					nextKey = kvp.Key;
+					if (kvp.Value.Type == LuaValueType.Table)
+					{
+						var t = kvp.Value.Read<LuaTable>();
+						sb.AppendLine($"\t[\"{kvp.Key}\"] = {kvp.Value}  [{t.ArrayLength}]  {{{t.HashMapCount}}}");
+					}
+					else
+						sb.AppendLine($"\t[\"{kvp.Key}\"] = {kvp.Value}");
+				}
+			}
+			sb.AppendLine("}");
+
+			return sb.ToString();
+		}
 	}
 }
