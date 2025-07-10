@@ -42,7 +42,7 @@ namespace Lua.Unity
 			access.ThrowIfInvalid();
 			access.Thread.Stack.Push(arguments);
 			var count = await access.RunAsync(closure, 1, cancellationToken);
-			using var results = access.ReadReturnValues(count);
+			using var results = access.ReadTopValues(count);
 			return results.AsSpan().ToArray();
 		}
 	}
