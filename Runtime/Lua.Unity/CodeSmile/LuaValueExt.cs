@@ -4,13 +4,13 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using Object = System.Object;
 
 namespace Lua.Unity
 {
 	public static class LuaValueExt
 	{
-		public static T As<T>(this LuaValue value, T defaultValue = default) =>
-			value.TryRead<T>(out var readValue) ? readValue : defaultValue;
+		public static T As<T>(this LuaValue value, T defaultValue = default) => value.TryRead<T>(out var readValue) ? readValue : defaultValue;
 
 		public static LuaValue ValueOrNil(ILuaUserData value) => value != null ? new LuaValue(value) : LuaValue.Nil;
 
@@ -22,18 +22,29 @@ namespace Lua.Unity
 		public static Boolean IsTable(this LuaValue value) => value.Type == LuaValueType.Table;
 		public static Boolean IsThread(this LuaValue value) => value.Type == LuaValueType.Thread;
 		public static Boolean IsUserData(this LuaValue value) => value.Type == LuaValueType.UserData;
-		public static Boolean BoolOrDefault(this LuaValue value) => value.TryRead(out Boolean result) ? result : default;
-		public static Int32 IntOrDefault(this LuaValue value) => value.TryRead(out Int32 result) ? result : default;
-		public static Int64 LongOrDefault(this LuaValue value) => value.TryRead(out Int64 result) ? result : default;
-		public static Single FloatOrDefault(this LuaValue value) => value.TryRead(out Single result) ? result : default;
-		public static Double DoubleOrDefault(this LuaValue value) => value.TryRead(out Double result) ? result : default;
-		public static String StringOrDefault(this LuaValue value) => value.TryRead(out String result) ? result : default;
-		public static LuaTable TableOrDefault(this LuaValue value) => value.TryRead(out LuaTable result) ? result : default;
 
-		public static LuaFunction FunctionOrDefault(this LuaValue value) =>
-			value.TryRead(out LuaFunction result) ? result : default;
 
-		public static ILuaUserData UserDataOrDefault(this LuaValue value) =>
-			value.TryRead(out ILuaUserData result) ? result : default;
+		public static T ReadValue<T>(this LuaValue v, T defaultValue = default) => v.TryRead<T>(out var result) ? result : defaultValue;
+		public static Boolean ReadBool(this LuaValue v, Boolean defaultValue = default) =>
+			v.TryRead(out Boolean result) ? result : defaultValue;
+
+		// Caution: boxing the int value, provided for convenience. For best efficiency read int and cast instead.
+		public static T ReadEnum<T>(this LuaValue v, T defaultValue = default) where T : Enum =>
+			v.TryRead(out Int32 result) ? (T)(Object)result : defaultValue;
+
+		public static Int32 ReadInt(this LuaValue v, Int32 defaultValue = default) => v.TryRead(out Int32 result) ? result : defaultValue;
+		public static Int64 ReadLong(this LuaValue v, Int64 defaultValue = default) => v.TryRead(out Int64 result) ? result : defaultValue;
+		public static Single ReadFloat(this LuaValue v, Single defaultValue = default) => v.TryRead(out Single result) ? result : defaultValue;
+		public static Double ReadDouble(this LuaValue v, Double defaultValue = default) => v.TryRead(out Double result) ? result : defaultValue;
+		public static String ReadString(this LuaValue v, String defaultValue = default) => v.TryRead(out String result) ? result : defaultValue;
+
+		public static LuaTable ReadTable(this LuaValue v, LuaTable defaultValue = default) =>
+			v.TryRead(out LuaTable result) ? result : defaultValue;
+
+		public static LuaFunction ReadFunction(this LuaValue value, LuaFunction defaultValue = default) =>
+			value.TryRead(out LuaFunction result) ? result : defaultValue;
+
+		public static ILuaUserData ReadUserData(this LuaValue value, ILuaUserData defaultValue = default) =>
+			value.TryRead(out ILuaUserData result) ? result : defaultValue;
 	}
 }

@@ -164,31 +164,31 @@ namespace Lua.Unity
 			table.TryGetValue(name, out var value) ? value : default;
 
 		public static Boolean GetBool(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value.BoolOrDefault() : default;
+			table.TryGetValue(name, out var value) ? value.ReadBool() : default;
 
 		public static Int32 GetInt(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value.IntOrDefault() : default;
+			table.TryGetValue(name, out var value) ? value.ReadInt() : default;
 
 		public static Int64 GetLong(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value.LongOrDefault() : default;
+			table.TryGetValue(name, out var value) ? value.ReadLong() : default;
 
 		public static Single GetFloat(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value.FloatOrDefault() : default;
+			table.TryGetValue(name, out var value) ? value.ReadFloat() : default;
 
 		public static Double GetDouble(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value.DoubleOrDefault() : default;
+			table.TryGetValue(name, out var value) ? value.ReadDouble() : default;
 
 		public static String GetString(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value.StringOrDefault() : default;
+			table.TryGetValue(name, out var value) ? value.ReadString() : default;
 
 		public static LuaTable GetTable(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value.TableOrDefault() : default;
+			table.TryGetValue(name, out var value) ? value.ReadTable() : default;
 
 		public static LuaFunction GetFunction(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value.FunctionOrDefault() : default;
+			table.TryGetValue(name, out var value) ? value.ReadFunction() : default;
 
 		public static ILuaUserData GetUserData(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value.UserDataOrDefault() : default;
+			table.TryGetValue(name, out var value) ? value.ReadUserData() : default;
 
 		public static void SetNil(this LuaTable table, String name) => table[name] = LuaValue.Nil;
 		public static void SetValue(this LuaTable table, String name, LuaValue value) => table[name] = value;
