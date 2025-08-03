@@ -12,6 +12,41 @@ namespace Lua.Unity
 {
 	public static class LuaTableExt
 	{
+		public static LuaTable Create(IList<LuaValue> list)
+		{
+			var arrayLength = list.Count;
+			var table = new LuaTable(arrayLength, 0);
+
+			for (var i = 1; i <= arrayLength; i++)
+				table[i] = list[i - 1];
+
+			return table;
+		}
+
+		public static LuaTable Create(IDictionary<LuaValue, LuaValue> dict)
+		{
+			var table = new LuaTable(0, 0);
+
+			foreach (var pair in dict)
+				table[pair.Key] = pair.Value;
+
+			return table;
+		}
+
+		public static LuaTable Create(IList<LuaValue> list, IDictionary<LuaValue, LuaValue> dict)
+		{
+			var arrayLength = list.Count;
+			var dictLength = dict.Count;
+			var table = new LuaTable(arrayLength, dictLength);
+
+			for (var i = 1; i <= arrayLength; i++)
+				table[i] = list[i - 1];
+			foreach (var pair in dict)
+				table[pair.Key] = pair.Value;
+
+			return table;
+		}
+
 		public static void SetValues(this LuaTable table, IList<LuaValue> values)
 		{
 			var count = values.Count;
@@ -160,20 +195,15 @@ namespace Lua.Unity
 
 		public static Boolean IsNil(this LuaTable table, String name) => table.ContainsKey(name) == false;
 
-		public static LuaValue GetValue(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value : default;
+		public static LuaValue GetValue(this LuaTable table, String name) => table.TryGetValue(name, out var value) ? value : default;
 
-		public static Boolean GetBool(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value.ReadBool() : default;
+		public static Boolean GetBool(this LuaTable table, String name) => table.TryGetValue(name, out var value) ? value.ReadBool() : default;
 
-		public static Int32 GetInt(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value.ReadInt() : default;
+		public static Int32 GetInt(this LuaTable table, String name) => table.TryGetValue(name, out var value) ? value.ReadInt() : default;
 
-		public static Int64 GetLong(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value.ReadLong() : default;
+		public static Int64 GetLong(this LuaTable table, String name) => table.TryGetValue(name, out var value) ? value.ReadLong() : default;
 
-		public static Single GetFloat(this LuaTable table, String name) =>
-			table.TryGetValue(name, out var value) ? value.ReadFloat() : default;
+		public static Single GetFloat(this LuaTable table, String name) => table.TryGetValue(name, out var value) ? value.ReadFloat() : default;
 
 		public static Double GetDouble(this LuaTable table, String name) =>
 			table.TryGetValue(name, out var value) ? value.ReadDouble() : default;
@@ -200,8 +230,7 @@ namespace Lua.Unity
 		public static void SetString(this LuaTable table, String name, String value) => table[name] = value ?? LuaValue.Nil;
 		public static void SetTable(this LuaTable table, String name, LuaTable value) => table[name] = value ?? LuaValue.Nil;
 
-		public static void SetFunction(this LuaTable table, String name, LuaFunction value) =>
-			table[name] = value ?? LuaValue.Nil;
+		public static void SetFunction(this LuaTable table, String name, LuaFunction value) => table[name] = value ?? LuaValue.Nil;
 
 		public static void SetUserData(this LuaTable table, String name, ILuaUserData value) =>
 			table[name] = value != null ? new LuaValue(value) : LuaValue.Nil;
@@ -290,10 +319,18 @@ namespace Lua.Unity
 					if (kvp.Value.Type == LuaValueType.Table)
 					{
 						var t = kvp.Value.Read<LuaTable>();
-						sb.AppendLine($"\t[\"{kvp.Key}\"] = {kvp.Value}  [{t.ArrayLength}]  {{{t.HashMapCount}}}");
+						sb.Append("\t[\"");
+						sb.Append(kvp.Key.ToString());
+						sb.Append("\"] = ");
+						sb.AppendLine(kvp.Value.ToString());
 					}
 					else
-						sb.AppendLine($"\t[\"{kvp.Key}\"] = {kvp.Value}");
+					{
+						sb.Append("\t[\"");
+						sb.Append(kvp.Key.ToString());
+						sb.Append("\"] = ");
+						sb.AppendLine(kvp.Value.ToString());
+					}
 				}
 			}
 			sb.AppendLine("}");
