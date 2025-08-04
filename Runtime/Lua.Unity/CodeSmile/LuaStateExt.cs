@@ -12,14 +12,14 @@ namespace Lua.Unity
 	public static class LuaStateExt
 	{
 		public static ValueTask<LuaValue[]> DoStringAsync(this LuaState state, String source, String chunkName,
-			LuaTable arguments, CancellationToken cancellationToken = default) =>
-			state.RootAccess.DoStringAsync(source, chunkName, arguments, cancellationToken);
+			LuaTable contextTable, CancellationToken cancellationToken = default) =>
+			state.RootAccess.DoStringAsync(source, chunkName, contextTable, cancellationToken);
 
 		public static ValueTask<LuaValue[]> DoBytesAsync(this LuaState state, ReadOnlySpan<Byte> source, String chunkName,
-			LuaTable arguments, CancellationToken cancellationToken = default) =>
-			state.RootAccess.DoBytesAsync(source, chunkName, arguments, cancellationToken);
+			LuaTable contextTable, CancellationToken cancellationToken = default) =>
+			state.RootAccess.DoBytesAsync(source, chunkName, contextTable, cancellationToken);
 
-		public static ValueTask<LuaValue[]> DoFileAsync(this LuaState state, String path, LuaTable arguments,
-			CancellationToken cancellationToken = default) => state.RootAccess.DoFileAsync(path, arguments, cancellationToken);
+		public static ValueTask<LuaValue[]> DoFileAsync(this LuaState state, String path, LuaTable contextTable,
+			CancellationToken cancellationToken = default) => state.RootAccess.DoFileAsync(path, contextTable, cancellationToken);
 	}
 }

@@ -13,35 +13,42 @@ namespace Lua.Unity
 	public static class LuaThreadAccessExt
 	{
 		public static ValueTask<LuaValue[]> DoStringAsync(this LuaThreadAccess access, String source, String chunkName,
-			LuaTable arguments, CancellationToken cancellationToken = default)
+			LuaTable contextTable, CancellationToken cancellationToken = default)
 		{
 			access.ThrowIfInvalid();
 			var closure = access.State.Load(source, chunkName ?? source);
-			return DoClosureAsync(access, closure, arguments, cancellationToken);
+			return ExecuteAsync(access, closure, contextTable, cancellationToken);
 		}
 
 		public static ValueTask<LuaValue[]> DoBytesAsync(this LuaThreadAccess access, ReadOnlySpan<Byte> source,
-			String chunkName, LuaTable arguments, CancellationToken cancellationToken = default)
+			String chunkName, LuaTable contextTable, CancellationToken cancellationToken = default)
 		{
 			access.ThrowIfInvalid();
 			var closure = access.State.Load(source, chunkName);
-			return DoClosureAsync(access, closure, arguments, cancellationToken);
+			return ExecuteAsync(access, closure, contextTable, cancellationToken);
 		}
 
-		public static async ValueTask<LuaValue[]> DoFileAsync(this LuaThreadAccess access, String path, LuaTable arguments,
+		public static async ValueTask<LuaValue[]> DoFileAsync(this LuaThreadAccess access, String path, LuaTable contextTable,
 			CancellationToken cancellationToken = default)
 		{
 			access.ThrowIfInvalid();
 			var closure = await access.State.LoadFileAsync(path, "bt", null, cancellationToken);
-			return await DoClosureAsync(access, closure, arguments, cancellationToken);
+			return await ExecuteAsync(access, closure, contextTable, cancellationToken);
 		}
 
-		public static async ValueTask<LuaValue[]> DoClosureAsync(this LuaThreadAccess access, LuaClosure closure,
-			LuaTable arguments, CancellationToken cancellationToken = default)
+		private static async ValueTask<LuaValue[]> ExecuteAsync(this LuaThreadAccess access, LuaClosure closure,
+			LuaTable contextTable, CancellationToken cancellationToken = default)
 		{
 			access.ThrowIfInvalid();
-			access.Thread.Stack.Push(arguments);
-			var count = await access.RunAsync(closure, 1, cancellationToken);
+
+			var argCount = 0;
+			if (contextTable != null)
+			{
+				argCount++;
+				access.Thread.Stack.Push(contextTable);
+			}
+
+			var count = await access.RunAsync(closure, argCount,  access.Stack.Count - argCount, cancellationToken);
 			using var results = access.ReadTopValues(count);
 			return results.AsSpan().ToArray();
 		}
