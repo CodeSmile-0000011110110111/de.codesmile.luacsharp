@@ -10,7 +10,8 @@ namespace Lua.Unity
 {
 	public static class LuaValueExt
 	{
-		public static T As<T>(this LuaValue value, T defaultValue = default) => value.TryRead<T>(out var readValue) ? readValue : defaultValue;
+		public static String ToString(this LuaValue luaValue) =>
+			luaValue.TryRead(out ILuaUserData userData) ? userData.ToString() : luaValue.ToString();
 
 		public static LuaValue ValueOrNil(ILuaUserData value) => value != null ? new LuaValue(value) : LuaValue.Nil;
 
@@ -23,8 +24,8 @@ namespace Lua.Unity
 		public static Boolean IsThread(this LuaValue value) => value.Type == LuaValueType.Thread;
 		public static Boolean IsUserData(this LuaValue value) => value.Type == LuaValueType.UserData;
 
-
 		public static T ReadValue<T>(this LuaValue v, T defaultValue = default) => v.TryRead<T>(out var result) ? result : defaultValue;
+
 		public static Boolean ReadBool(this LuaValue v, Boolean defaultValue = default) =>
 			v.TryRead(out Boolean result) ? result : defaultValue;
 

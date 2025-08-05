@@ -19,7 +19,8 @@ namespace Lua.Unity
 				if (i > 0)
 					sb.Append(", ");
 
-				sb.Append(context.GetArgument(i).ToString());
+				var arg = context.GetArgument(i);
+				sb.Append(LuaValueExt.ToString(arg));
 			}
 			sb.Append(postfix);
 			return sb.ToString();
